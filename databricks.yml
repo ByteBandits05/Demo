@@ -1,58 +1,45 @@
-# databricks.yml
-# Databricks Asset Bundle configuration for deployment across dev, qa, and prod environments.
-# Edit 'host' and 'root_path' values in each target and job as needed.
-
+# Databricks Asset Bundle deployment configuration for Demo
 bundle:
-  name: databricks-demo-asset-bundle # Descriptive name for the bundle
+  name: demo-databricks-bundle
 
+# Environment targets for deployment
 targets:
-  dev: # Default environment
+  dev:  # Development environment (default)
     default: true
     workspace:
-      host: https://dbc-d56de9ca-1926.cloud.databricks.com/      # <-- Customize this URL for your DEV Databricks workspace
-      root_path: /Workspace/YourProject       # <-- Set the root path for DEV
-  qa:
+      host: https://dbc-d56de9ca-1926.cloud.databricks.com/
+      root_path: /Workspace/Demo
+  qa:   # Quality Assurance environment
     workspace:
-      host: https://dbc-d56de9ca-1926.cloud.databricks.com/       # <-- Customize this URL for your QA Databricks workspace
-      root_path: /Workspace/YourProject       # <-- Set the root path for QA
-  prod:
+      host: https://dbc-d56de9ca-1926.cloud.databricks.com/
+      root_path: /Workspace/Demo
+  prod: # Production environment
     workspace:
-      host: https://dbc-d56de9ca-1926.cloud.databricks.com/       # <-- Customize this URL for your PROD Databricks workspace
-      root_path: /Workspace/YourProject       # <-- Set the root path for PROD
+      host: https://dbc-d56de9ca-1926.cloud.databricks.com/
+      root_path: /Workspace/Demo
 
 resources:
   jobs:
-    pytest:
-      name: pytest
+    pytest:  # Job to run Pytest notebooks in the Demo bundle
+      name: Pytest Job
       notebook_task:
-        notebook_path: /Workspace/YourProject/files/pytest/test_file  # <-- Ensure this matches the root_path above
+        notebook_path: /Workspace/Demo/files/pytest/test_file  # Explicit notebook path
       queue:
-        enabled: true
-      job_clusters:
-        - job_cluster_key: serverless
-          new_cluster:
-            # No explicit cluster config; runs on serverless
-            spark_version: auto
-            node_type_id: serverless
-      tags:
-        environment: ${bundle.target}  # Automatically set to dev, qa, or prod
-        job_type: test
+        enabled: true  # Enable job queueing
       performance_target: STANDARD
-    smoke_test:
-      name: smoke_test
-      notebook_task:
-        notebook_path: /Workspace/YourProject/files/smoke/smoke_test  # <-- Ensure this matches the root_path above
-      queue:
-        enabled: true
-      job_clusters:
-        - job_cluster_key: serverless
-          new_cluster:
-            # No explicit cluster config; runs on serverless
-            spark_version: auto
-            node_type_id: serverless
       tags:
-        environment: ${bundle.target}  # Automatically set to dev, qa, or prod
-        job_type: smoke
-      performance_target: STANDARD
+        environment: ${bundle.target}  # Dynamically set to the active environment
+        job_type: testing              # Static value for job type
+      timeout_seconds: 3600            # 1 hour timeout
 
-# To use: Copy this file, then edit host and root_path in each target and job notebook_path as needed for your organization.
+    smoke_test:  # Job to run smoke tests on the Demo bundle
+      name: Smoke Test Job
+      notebook_task:
+        notebook_path: /Workspace/Demo/files/smoketest/smoke_test  # Explicit notebook path
+      queue:
+        enabled: true  # Enable job queueing
+      performance_target: STANDARD
+      tags:
+        environment: ${bundle.target}  # Dynamically set to the active environment
+        job_type: validation           # Static value for job type
+      timeout_seconds: 1800            # 30 minutes timeout
