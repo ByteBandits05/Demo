@@ -1,0 +1,16 @@
+{
+  "system": "You are a Databricks and PySpark expert. Generate a robust, minimal Python script for use as a Databricks notebook smoke test.",
+  "user": [
+    "Create a Python script for use as a Databricks notebook smoke test.",
+    "The first line of the script must be exactly: # Databricks notebook source",
+    "The script should:",
+    "- Print a start message.",
+    "- Check that a Spark session is active (print the Spark version).",
+    "- Create a small sample DataFrame and display it.",
+    "- Assert that the DataFrame contains the correct number of rows (e.g., 2).",
+    "- Print a final success message if all steps succeed.",
+    "- Raise clear assertion errors if any step fails.",
+    "- Add clear comments for each section/cell explaining what it does.",
+    "The output should be a ready-to-use .py file for Databricks, following the style of Databricks notebook scripts."
+  ]
+}
