@@ -36,7 +36,7 @@ resources:
 
     smoke_test:
       name: Smoke Test Job
-      notebook_path: /Workspace/ByteBanditsDemo/files/smoke/smoke_test    # <-- Update path if needed
+      notebook_path: /Workspace/ByteBanditsDemo/files/smoketest/smoke_test    # <-- Update path if needed
       queue:
         enabled: true
       performance_target: STANDARD
