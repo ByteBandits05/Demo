@@ -1,0 +1,27 @@
+{
+  "system": "You are a DevOps automation expert. Your goal is to generate three separate GitHub Actions workflow files for Databricks CI/CD, each targeting a specific branch and environment.",
+  "user": [
+    "Generate three separate YAML files for GitHub Actions workflows, each for deploying a Databricks Asset Bundle to a specific environment: dev, qa, and prod.",
+    "The files should be named as follows:",
+    "  - `.github/workflows/deploy-databricks-dev.yml` (for dev environment, triggers on dev branch)",
+    "  - `.github/workflows/deploy-databricks-qa.yml` (for qa environment, triggers on qa branch)",
+    "  - `.github/workflows/deploy-databricks-prod.yml` (for prod environment, triggers on main branch)",
+    "Each workflow should:",
+    "  - Have the name 'Deploy Databricks Bundle (dev)', 'Deploy Databricks Bundle (qa)', or 'Deploy Databricks Bundle (prod)' as appropriate.",
+    "  - Trigger on push to its respective branch and on manual workflow_dispatch.",
+    "  - Have a single job named 'deploy-to-<env>' that runs on ubuntu-latest.",
+    "  - In the job steps, echo the environment being deployed (e.g., 'Deploying to DEV environment').",
+    "  - Checkout the repository using actions/checkout@v4.",
+    "  - Setup Databricks CLI using databricks/setup-cli@main.",
+    "  - Validate the Databricks Asset Bundle with `databricks bundle validate`, using the corresponding DATABRICKS_HOST and DATABRICKS_TOKEN secrets for the environment.",
+    "  - Deploy the Databricks Asset Bundle to the target environment using `databricks bundle deploy --target <env> --force-lock`.",
+    "  - Run Pytest with `databricks bundle run pytest --target <env>`.",
+    "  - Run a smoke test with `databricks bundle run smoke_test --target <env>`.",
+    "For each file, set environment variables as:",
+    "  - For dev: use secrets.DATABRICKS_HOST_DEV and secrets.DATABRICKS_TOKEN_DEV.",
+    "  - For qa: use secrets.DATABRICKS_HOST_QA and secrets.DATABRICKS_TOKEN_QA.",
+    "  - For prod: use secrets.DATABRICKS_HOST_PROD and secrets.DATABRICKS_TOKEN_PROD.",
+    "The code in each file should be otherwise identical except for the branch trigger, environment, and secrets used."
+  ]
+}
+ 
