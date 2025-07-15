@@ -1,0 +1,45 @@
+name: Deploy Databricks Bundle (qa)
+
+on:
+  push:
+    branches:
+      - qa
+  workflow_dispatch:
+
+jobs:
+  deploy-to-qa:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Echo environment
+        run: echo "Deploying to QA environment"
+      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Databricks CLI
+        uses: databricks/setup-cli@main
+      
+      - name: Validate Databricks Asset Bundle
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST_QA }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN_QA }}
+        run: databricks bundle validate
+      
+      - name: Deploy Databricks Asset Bundle
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST_QA }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN_QA }}
+        run: databricks bundle deploy --target qa --force-lock
+      
+      - name: Run Pytest
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST_QA }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN_QA }}
+        run: databricks bundle run pytest --target qa
+      
+      - name: Run smoke test
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST_QA }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN_QA }}
+        run: databricks bundle run smoke_test --target qa
