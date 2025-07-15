@@ -21,7 +21,7 @@ targets:
 resources:
   jobs:
     pytest:  # Job to run Pytest notebooks in the Demo bundle
-      name: Pytest Job
+      name: pytest
       notebook_task:
         notebook_path: /Workspace/Demo/files/pytest/test_file  # Explicit notebook path
       queue:
@@ -33,7 +33,7 @@ resources:
       timeout_seconds: 3600            # 1 hour timeout
 
     smoke_test:  # Job to run smoke tests on the Demo bundle
-      name: Smoke Test Job
+      name: smoke_test
       notebook_task:
         notebook_path: /Workspace/Demo/files/smoketest/smoke_test  # Explicit notebook path
       queue:
