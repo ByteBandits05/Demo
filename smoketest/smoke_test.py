@@ -1,34 +1,31 @@
-# Databricks Smoke Test Notebook
-# This script performs a minimal smoke test to validate that the Databricks environment is working.
+# Databricks Notebook
 
-# Cell 1: Import required modules and check Spark session
-# (In Databricks, 'spark' session is auto-available)
-print("=== Databricks Smoke Test Start ===")
+# COMMAND ----------
+# This cell prints the start message for the smoke test.
+print("Databricks smoke test started.")
 
+# COMMAND ----------
+# This cell checks that a Spark session is active and prints the Spark version.
 try:
-    # Check if Spark session is available and print its version
     spark_version = spark.version
-    print(f"Succeeded: Spark session is active (version: {spark_version})")
+    print(f"Active Spark session detected. Spark version: {spark_version}")
 except Exception as e:
-    raise AssertionError(f"ERROR: Spark session is not available: {e}")
+    raise AssertionError("No active Spark session found. Ensure the notebook is attached to a cluster.") from e
 
-# Cell 2: Create and display a simple DataFrame
-try:
-    # Create a DataFrame with sample data
-    data = [(1, "alpha"), (2, "beta")]
-    df = spark.createDataFrame(data, ["id", "label"])
-    print("Succeeded: DataFrame created")
-    df.show()
-except Exception as e:
-    raise AssertionError(f"ERROR: DataFrame creation/display failed: {e}")
+# COMMAND ----------
+# This cell creates a small sample DataFrame and displays it.
+from pyspark.sql import Row
 
-# Cell 3: Assert DataFrame contents
-try:
-    count = df.count()
-    assert count == 2, f"ERROR: DataFrame should have 2 rows, found {count}"
-    print("Succeeded: DataFrame row count assertion passed")
-except Exception as e:
-    raise AssertionError(f"ERROR: DataFrame assertion failed: {e}")
+data = [Row(id=1, value="foo"), Row(id=2, value="bar")]
+df = spark.createDataFrame(data)
+display(df)  # Databricks notebooks recognize display()
 
-# Cell 4: Print final success message
-print("\n=== SUCCESS: Databricks environment smoke test passed ===")
+# COMMAND ----------
+# This cell asserts that the DataFrame contains the correct number of rows.
+expected_rows = 2
+actual_rows = df.count()
+assert actual_rows == expected_rows, f"Expected {expected_rows} rows, but got {actual_rows}."
+
+# COMMAND ----------
+# This cell prints a final success message if all steps have succeeded.
+print("Databricks smoke test completed successfully.")
