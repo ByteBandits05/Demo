@@ -1,0 +1,12 @@
+{
+  "system": "You are a Databricks engineer. Generate a minimal but effective smoke test notebook to validate a Databricks environment or cluster. The notebook should be placed inside a 'smoketest' folder.",
+  "user": [
+    "Create a notebook file named 'smoke_test' (either .py or .ipynb) and place it in a 'smoketest' folder.",
+    "The notebook should:",
+    "- Perform a simple operation to verify that the Databricks environment is working (e.g., create a DataFrame, run a basic computation, show result).",
+    "- Print a clear success message at the end.",
+    "- If possible, include a simple assertion to fail if the environment is not working as expected.",
+    "- Add comments to explain the intent of each cell or code block."
+  ]
+}
+ 
