@@ -1,0 +1,49 @@
+# databricks.yml
+# Production-ready Databricks Asset Bundle deployment configuration.
+# Customize the host and root_path values for your organization as shown below.
+
+bundle:
+  name: bytebandits-demo-prod-ready
+  # Descriptive name for this Databricks Asset Bundle
+
+targets:
+  dev:
+    description: Development environment (default)
+    host: https://dbc-d56de9ca-1926.cloud.databricks.com/         # <-- Set your DEV Databricks workspace URL here
+    root_path: /Workspace/ByteBanditsDemo      # <-- Set your DEV root path here
+    default: true
+  qa:
+    description: QA environment
+    host: https://dbc-d56de9ca-1926.cloud.databricks.com/          # <-- Set your QA Databricks workspace URL here
+    root_path: /Workspace/ByteBanditsDemo      # <-- Set your QA root path here
+  prod:
+    description: Production environment
+    host: https://dbc-d56de9ca-1926.cloud.databricks.com/         # <-- Set your PROD Databricks workspace URL here
+    root_path: /Workspace/ByteBanditsDemo      # <-- Set your PROD root path here
+
+resources:
+  jobs:
+    pytest:
+      name: Pytest Job
+      notebook_path: /Workspace/ByteBanditsDemo/files/pytest/test_file    # <-- Update path if needed
+      queue:
+        enabled: true
+      performance_target: STANDARD
+      tags:
+        environment: ${bundle.target}    # Environment tag, dynamically set by deployment target
+        job_type: test                  # Static tag for job type
+      # Runs on Databricks serverless by default; no cluster configs or policies needed
+
+    smoke_test:
+      name: Smoke Test Job
+      notebook_path: /Workspace/ByteBanditsDemo/files/smoke/smoke_test    # <-- Update path if needed
+      queue:
+        enabled: true
+      performance_target: STANDARD
+      tags:
+        environment: ${bundle.target}    # Environment tag, dynamically set by deployment target
+        job_type: smoke                  # Static tag for job type
+      # Runs on Databricks serverless by default; no cluster configs or policies needed
+
+# Note: Edit 'host' and 'root_path' fields above for each environment as appropriate for your organization.
+# This file is DRY and ready to be copy-pasted and customized for your Databricks deployment needs.
