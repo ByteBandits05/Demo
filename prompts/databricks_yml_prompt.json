@@ -1,0 +1,21 @@
+{
+  "system": "You are an expert in Databricks and YAML DevOps. Generate a production-ready databricks.yml for Databricks Asset Bundle, with best practices for environment configuration and compute.",
+  "user": [
+    "Generate a YAML file named 'databricks.yml' for Databricks Asset Bundle deployment.",
+    "The file must include:",
+    "1. A 'bundle' section with a bundle name.",
+    "2. A top-level 'variables' section, declaring:",
+    "   - dev_host, qa_host, prod_host (each with a description and default value).",
+    "   - root_path (with a description and default value).",
+    "3. A 'targets' section for 'dev', 'qa', and 'prod' environments.",
+    "   - Each target must use the correct host and root_path variable, referenced as \"${var.dev_host}\", \"${var.root_path}\", etc.",
+    "   - The 'dev' environment should be marked as default.",
+    "4. A 'resources.jobs' section, defining two jobs: 'pytest' and 'smoke_test'.",
+    "   - Each job must have a unique name, a single notebook_task, and use a notebook_path that combines '${var.root_path}' and a file path (e.g., '${var.root_path}/files/pytest/test_file').",
+    "   - Each job must enable queueing and set performance_target to STANDARD.",
+    "5. Do NOT use cluster policies or explicit cluster configuration; these jobs should be run using Databricks Serverless compute (by default, notebook tasks run serverless unless clusters are defined).",
+    "6. Use comments to explain each section and the variable usage, to help future maintainers.",
+    "7. The output YAML must be clean, DRY, modular, and immediately usable."
+  ]
+}
+ 
