@@ -1,0 +1,23 @@
+{
+  "system": "You are a YAML and Databricks Asset Bundle configuration expert. Generate a clean, explicit, and production-ready databricks.yml file for Databricks Asset Bundle deployment, showing all notebook tasks and hierarchy.",
+  "user": [
+    "Generate a YAML file named 'databricks.yml' for Databricks Asset Bundle deployment.",
+    "The file must include:",
+    "1. A 'bundle' section with a descriptive name.",
+    "2. A 'targets' section with three environments: dev, qa, and prod.",
+    "   - The dev environment must have 'default: true' set.",
+    "   - Each environment should specify the workspace host and the explicit root_path for the bundle.",
+    "3. A 'resources.jobs' section defining two jobs: 'pytest' and 'smoke_test'.",
+    "   - Each job should include:",
+    "     a. An explicit name.",
+    "     b. A tasks list with a notebook_task.",
+    "     c. Each notebook_task must use an explicit, full notebook_path showing the workspace hierarchy (e.g., '/Workspace/Demo/files/pytest/test_file' for pytest, '/Workspace/Demo/files/smoketest/smoke_test' for smoke_test).",
+    "     d. Each job should set a timeout_seconds value (pytest: 3600, smoke_test: 1800).",
+    "     e. Enable queueing, set performance_target to STANDARD.",
+    "     f. Add tags with environment set to '${bundle.target}' and job_type as appropriate.",
+    "4. Do not use any variables for host, root_path, or notebook paths; use explicit values throughout.",
+    "5. Add inline comments explaining the purpose of each section, each job, and the notebook task hierarchy.",
+    "6. Output must be clear, clean, and ready for production use, making it easy for a user to see all task notebook paths at a glance.",
+    "7. root_path should not have environment name and should always deploy to workspace/<Repo Name>."
+  ]
+}
