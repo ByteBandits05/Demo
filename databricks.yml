@@ -11,19 +11,19 @@ targets:
   dev:
     default: true
     workspace:
-      host: "https://adb-1341635366377882.2.azuredatabricks.net/"
+      host: "https://dbc-d56de9ca-1926.cloud.databricks.com/"
       root_path: "/Workspace/Demo"
 
   # QA environment
   qa:
     workspace:
-      host: "https://adb-1341635366377882.2.azuredatabricks.net/"
+      host: "https://dbc-d56de9ca-1926.cloud.databricks.com/"
       root_path: "/Workspace/Demo"
 
   # Production environment
   prod:
     workspace:
-      host: "https://adb-1341635366377882.2.azuredatabricks.net/"
+      host: "https://dbc-d56de9ca-1926.cloud.databricks.com/"
       root_path: "/Workspace/Demo"
 
 resources:
