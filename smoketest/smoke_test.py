@@ -1,4 +1,4 @@
-# Databricks Notebook
+# Databricks notebook source
 
 # COMMAND ----------
 # This cell prints the start message for the smoke test.
