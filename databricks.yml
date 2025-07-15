@@ -4,51 +4,28 @@
 bundle:
   name: demo-databricks-bundle
 
-# Variables section: Define reusable variables for different environments
-# These variables are referenced throughout the configuration using ${var.variable_name} syntax
-variables:
-  # Host URLs for each environment
-  dev_host:
-    description: "Databricks host URL for development environment"
-    default: "https://adb-1341635366377882.2.azuredatabricks.net/"
+# No variables section—values are used directly below
 
-  qa_host:
-    description: "Databricks host URL for QA environment"
-    default: "https://adb-1341635366377882.2.azuredatabricks.net/"
-
-  prod_host:
-    description: "Databricks host URL for production environment"
-    default: "https://adb-1341635366377882.2.azuredatabricks.net/"
-
-  # Root path where bundle resources will be deployed (without environment suffix)
-  # This deploys to workspace/<Repo Name> as per best practices
-  root_path:
-    description: "Root path for bundle deployment in workspace"
-    default: "/Workspace/Demo"
-
-# Targets section: Define environment-specific configurations
-# Each target references the appropriate host and uses the same root_path
 targets:
   # Development environment (default)
   dev:
     default: true
     workspace:
-      host: ${var.dev_host}
-      root_path: ${var.root_path}
+      host: "https://adb-1341635366377882.2.azuredatabricks.net/"
+      root_path: "/Workspace/Demo"
 
   # QA environment
   qa:
     workspace:
-      host: ${var.qa_host}
-      root_path: ${var.root_path}
+      host: "https://adb-1341635366377882.2.azuredatabricks.net/"
+      root_path: "/Workspace/Demo"
 
   # Production environment
   prod:
     workspace:
-      host: ${var.prod_host}
-      root_path: ${var.root_path}
+      host: "https://adb-1341635366377882.2.azuredatabricks.net/"
+      root_path: "/Workspace/Demo"
 
-# Resources section: Define jobs and other Databricks resources
 resources:
   jobs:
     # Pytest job: Runs unit tests using the test file
@@ -57,14 +34,11 @@ resources:
       tasks:
         - task_key: "run_pytest"
           notebook_task:
-            notebook_path: "${var.root_path}/files/pytest/test_file"
+            notebook_path: "/Workspace/Demo/files/pytest/test_file"
           timeout_seconds: 3600
-      # Enable job queueing to handle concurrent runs
       queue:
         enabled: true
-      # Set performance target to STANDARD for cost optimization
       performance_target: STANDARD
-      # Note: Uses Databricks Serverless compute by default (no explicit cluster configuration)
       tags:
         environment: "${bundle.target}"
         job_type: "testing"
@@ -75,15 +49,11 @@ resources:
       tasks:
         - task_key: "run_smoke_test"
           notebook_task:
-            notebook_path: "${var.root_path}/files/smoketest/smoke_test"
+            notebook_path: "/Workspace/Demo/files/smoketest/smoke_test"
           timeout_seconds: 1800
-      # Enable job queueing to handle concurrent runs
       queue:
         enabled: true
-      # Set performance target to STANDARD for cost optimization
       performance_target: STANDARD
-      # Note: Uses Databricks Serverless compute by default (no explicit cluster configuration)
       tags:
         environment: "${bundle.target}"
         job_type: "validation"
- 
