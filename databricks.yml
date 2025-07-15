@@ -22,8 +22,10 @@ resources:
   jobs:
     pytest:  # Job to run Pytest notebooks in the Demo bundle
       name: pytest
-      notebook_task:
-        notebook_path: /Workspace/Demo/files/pytest/test_file  # Explicit notebook path
+      tasks:
+        - task_key: "run_pytest"
+          notebook_task:
+            notebook_path: /Workspace/Demo/files/pytest/test_file  # Explicit notebook path
       queue:
         enabled: true  # Enable job queueing
       performance_target: STANDARD
@@ -34,8 +36,11 @@ resources:
 
     smoke_test:  # Job to run smoke tests on the Demo bundle
       name: smoke_test
-      notebook_task:
-        notebook_path: /Workspace/Demo/files/smoketest/smoke_test  # Explicit notebook path
+      tasks:
+        - task_key: "run_smoke_test"
+          notebook_task:
+            notebook_path: "/Workspace/Demo/files/smoketest/smoke_test"
+          timeout_seconds: 1800
       queue:
         enabled: true  # Enable job queueing
       performance_target: STANDARD
